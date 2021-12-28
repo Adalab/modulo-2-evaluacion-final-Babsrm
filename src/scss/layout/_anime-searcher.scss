@@ -1,0 +1,9 @@
+.header{
+  &__title{
+    font-family: $font-primary;
+    font-size: 20px;
+  }
+  &__body{
+    display: flex;
+  }
+}
