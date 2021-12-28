@@ -3,12 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Documento</title>
-    <link rel="stylesheet" href="" />
-    
+    <title>Evaluación final Babsrm</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/main.css" />
   </head>
 
   <body>
-    
+    <div class="page">
+      <header class="header__title">
+          <h1>Buscador de series de anime</h1>
+      </header>
+      <section class="header__body">
+          <fieldset>
+              <label class="" for="name"></label>
+              <input class="js-userInput" type="text" name="name-show" id="name-show" placeholder="Ej: Naruto" maxlength="30">
+          </fieldset>
+          <div>
+              <button class="header__body--searchbtn js-searchBtn" type="submit"><i class="" aria-hidden="true"></i>Buscar</button>
+              <button class="header__body--resetbtn js-resetBtn" type="reset"><i class="" aria-hidden="true"></i>Reset</button>
+          </div>
+      </section>
+      <section class="favlist">
+          <h3 class="favlist__title">Series favoritas</h3>
+
+      </section> 
+      <section class="results">
+          <h3 class="results__title">Resultados</h3>
+          <li class="js-resultsData">
+              <ul>
+              </ul>
+          </li>
+      </section> 
+    </div>
+    <script src="./assets/js/main.js"></script>
   </body>
 </html>
