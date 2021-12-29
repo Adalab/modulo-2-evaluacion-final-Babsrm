@@ -1,15 +1,15 @@
-<header class="header__title">
-    <h1>Buscador de series de anime</h1>
+<header class="header">
+    <h1 class="header__title">Buscador de series de anime</h1>
+    <section class="header__body">
+        <form class="header__body--form js-form" method="GET">
+            <input class="js-userInput userInput" type="text" name="name-show" id="name-show" placeholder="Ej: Naruto"
+                maxlength="30">
+            <button class="header__body--searchbtn js-searchBtn" type="submit"><i class=""
+                    aria-hidden="true"></i>Buscar</button>
+        </form>
+        <div>
+            <button class="header__body--resetbtn js-resetBtn" type="reset"><i class=""
+                    aria-hidden="true"></i>Reset</button>
+        </div>
+    </section>
 </header>
-<section class="header__body">
-    <form class="form js-form" method="GET">
-        <input class="js-userInput userInput" type="text" name="name-show" id="name-show" placeholder="Ej: Naruto"
-        maxlength="30">
-        <button class="header__body--searchbtn js-searchBtn" type="submit"><i class=""
-        aria-hidden="true"></i>Buscar</button>
-    </form>
-    <div>
-        <button class="header__body--resetbtn js-resetBtn" type="reset"><i class=""
-                aria-hidden="true"></i>Reset</button>
-    </div>
-</section>

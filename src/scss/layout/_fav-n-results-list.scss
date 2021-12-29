@@ -1,0 +1,61 @@
+.bothcolums{
+  display: flex;
+}
+.results{
+  font-family: $font-primary;  
+  background-color: black;
+  color: $color-font-primary;
+  width: 60%;
+  height: 100%; 
+  border: rgb(255, 0, 179) 3px solid;
+  font-family: $font-primary;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &__title{
+    font-size: 16px;
+  }
+}
+.favlist {
+  background-color: black;
+  color: $color-font-primary;
+  width: 40%;
+  height: 100%;
+  border: yellow 3px solid;
+  font-family: $font-primary;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &__title{
+    font-size: 16px;
+  }
+}
+@media all and (min-width: 768px){
+  .results{
+    width: 65%;
+  
+    &__title{
+      font-size: 18px;
+    }
+  }
+  .favlist{
+    width: 35%;justify-content: space-evenly;
+    &__title{
+      font-size: 18px;
+    }
+  }
+}
+@media all and (min-width: 1280px){
+  .results{
+    width: 70%;
+    &__title{
+      font-size: 20px;
+    }
+  }
+  .favlist{
+    width: 30%;
+    &__title{
+      font-size: 20px;
+    }
+  }
+}
