@@ -40,6 +40,8 @@ function handleSearchBtn(ev) {
   ev.preventDefault();
   textInput = document.querySelector('.js-userInput').value;
   callApi();
+  showFavs();
+  getFavorites();
 }
 
 searchBtn.addEventListener('click', handleSearchBtn);
@@ -67,46 +69,22 @@ function rmvFavsFromLocalStg() {
   localStorage.removeItem('favorites');
 }
 
-//pintamos los resultados obtenidos desde la api
-
-function paintResults() {
-  const showListElem = document.querySelectorAll('.js-seriesList');
-  //cojo el queryselectorall porque quiero todos los objetos del array
-  let htmlCode = '';
-  let i = 0;
-  for (const serie of serieList) {
-    htmlCode += `<li>`;
-    htmlCode += `<h5>${serie.title}</h5>`;
-    htmlCode += `<button class= "show__favbtn js-addFavBtn${[
-      i,
-    ]}">Añadir a favoritos</button>`;
-    if (serie.img_url === null) {
-      htmlCode += `<img src="${imgIfNone}" alt= "Anime: ${serie.title}">`;
-    } else {
-      htmlCode += `<img src="${serie.image_url}" alt= "Anime: ${serie.title}">`;
-    }
-    htmlCode += `</li>`;
-    i++;
-  }
-  showListElem.innerHTML += htmlCode;
-}
-
 //pintamos los favoritos
 
-function showFavs() {
-  let favElems = '';
-  // document.querySelector(".js-favlistcontainer").innerHTML =
-  // `<li>${for (let i=0; i< localStorage.length; i++){
-  //     favShow = localStorage.key(i);
-  //     favElems.innerHTML += `<h5>${favorites.title}</h5>`;
-  //     favElems.innerHTML += `${if (favorites.img_url === null) {
-  //         favElems.innerHTML += `<img src="${imgIfNone}" alt= "Anime: ${favorites.title}">`;
-  //     } else {
-  //         favElems.innerHTML += `<img src="${favorites.image_url}" alt= "Anime: ${favorites.title}">`; //no sé cómo añadir la imagen si no es con el if. está mal el código
-  //     }
-  //     favElems.innerHTML += `</li>`;
-  //}   no sé ejecutar bien esto
-}
+// function showFavs() {
+//   let favElems = '';
+//   // document.querySelector(".js-favlistcontainer").innerHTML =
+//   // `<li>${for (let i=0; i< localStorage.length; i++){
+//   //     favShow = localStorage.key(i);
+//     favElems.innerHTML += `<h5>${favorites.title}</h5>`;
+//     favElems.innerHTML += `${if (favorites.img_url === null) {
+//         favElems.innerHTML += `<img src="${imgIfNone}" alt= "Anime: ${favorites.title}">`;
+//     } else {
+//         favElems.innerHTML += `<img src="${favorites.image_url}" alt= "Anime: ${favorites.title}">`; //no sé cómo añadir la imagen si no es con el if. está mal el código
+//     }
+//     favElems.innerHTML += `</li>`;
+//}   no sé ejecutar bien esto
+// }
 
 //cogemos datos, muchos datos de la api
 
@@ -135,9 +113,9 @@ function getDataFromApi(element, title, series) {
   const titleFromApi = getTitle(title);
   const listFromApi = getList();
   for (const serie of series) {
-    const listItemFromApi = getListItemFromApi(title, serie);
-    const imageFromApi = GetImageFromApi(serie);
-    const titleSecondFromApi = getSecondTitleFromApi(title, serie);
+    const listItemFromApi = getListItemFromApi(serie);
+    const imageFromApi = getImageFromApi(serie);
+    const titleSecondFromApi = getSecondTitleFromApi(serie);
     listItemFromApi.appendChild(imageFromApi);
     listItemFromApi.appendChild(titleSecondFromApi);
     listFromApi.appendChild(listItemFromApi);
@@ -159,12 +137,27 @@ function getList() {
   return element;
 }
 
-function getListItemFromApi(title, serie) {
+function getListItemFromApi(serie) {
   const element = document.createElement('li');
   element.dataset.id = serie.mal_id;
+  return element;
 }
 
+function getImageFromApi(serie) {
+  const element = document.createElement('img');
+  element.className = 'urlImg';
+  element.src = serie.image_url;
+  return element;
+}
 
+function getSecondTitleFromApi(serie) {
+  const element = document.createElement('h6');
+  element.className = 'secondTitle';
+  console.log(serie);
+  const text = document.createTextNode(serie.title);
+  element.appendChild(text);
+  return element;
+}
 
 getFavsFromLocalStg();
 saveFavsLocalStg();
