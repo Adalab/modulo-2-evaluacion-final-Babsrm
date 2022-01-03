@@ -1,5 +1,8 @@
 .bothcolums {
 	display: flex;
+  height: 100%;
+  margin: 0;
+  background-color: black;
 }
 .results {
 	font-family: $font-primary;
@@ -7,6 +10,7 @@
 	color: $color-font-primary;
 	width: 60%;
 	height: 100%;
+  margin: 0;
 	border: rgb(255, 0, 179) 3px solid;
 	font-family: $font-primary;
 	display: flex;
@@ -16,12 +20,23 @@
 	&__title {
 		font-size: 16px;
 	}
+  &__results{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    border: burlywood 2px solid;
+  }
+}
+.ulSerie{
+  height: auto;
+  width: auto;
 }
 .favlist {
 	background-color: black;
 	color: $color-font-primary;
 	width: 40%;
 	height: 100%;
+  margin: 0;
 	border: yellow 3px solid;
 	font-family: $font-primary;
 	display: flex;

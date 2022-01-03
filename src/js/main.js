@@ -4,7 +4,7 @@
 const searchBtn = document.querySelector('.js-searchBtn');
 const resetBtn = document.querySelector('.js-resetBtn');
 const listaFavs = document.querySelector('.js-favoritesList');
-const addFavBtn = document.querySelector('.js-addFavBtn');
+let addFav = [];
 
 //variables
 const apiURL = 'https://api.jikan.moe/v3/search/anime?q=';
@@ -15,12 +15,14 @@ let serieList = [];
 let favorites = [];
 
 //funcion botón reset
-// function handleResetBtn() {
-//     textInput = "";
-//     data.name = "";
-//   }
 
-//   resetBtn.addEventListener("click", handleResetBtn);
+function handleResetBtn() {
+  textInput = '';
+  serieList = [];
+  favorites = [];
+}
+
+resetBtn.addEventListener('click', handleResetBtn);
 
 //llamamos al servidor api
 function callApi() {
@@ -40,11 +42,12 @@ function handleSearchBtn(ev) {
   ev.preventDefault();
   textInput = document.querySelector('.js-userInput').value;
   callApi();
-  showFavs();
   getFavorites();
 }
 
 searchBtn.addEventListener('click', handleSearchBtn);
+
+//funcion boton añadir a favoritos
 
 //Guardamos los favoritos en el local storage
 
@@ -69,23 +72,6 @@ function rmvFavsFromLocalStg() {
   localStorage.removeItem('favorites');
 }
 
-//pintamos los favoritos
-
-// function showFavs() {
-//   let favElems = '';
-//   // document.querySelector(".js-favlistcontainer").innerHTML =
-//   // `<li>${for (let i=0; i< localStorage.length; i++){
-//   //     favShow = localStorage.key(i);
-//     favElems.innerHTML += `<h5>${favorites.title}</h5>`;
-//     favElems.innerHTML += `${if (favorites.img_url === null) {
-//         favElems.innerHTML += `<img src="${imgIfNone}" alt= "Anime: ${favorites.title}">`;
-//     } else {
-//         favElems.innerHTML += `<img src="${favorites.image_url}" alt= "Anime: ${favorites.title}">`; //no sé cómo añadir la imagen si no es con el if. está mal el código
-//     }
-//     favElems.innerHTML += `</li>`;
-//}   no sé ejecutar bien esto
-// }
-
 //cogemos datos, muchos datos de la api
 
 function getSeriesResult() {
@@ -108,6 +94,7 @@ function getFavorites() {
     favoritesList.classList.remove('favorites');
   }
 }
+//cojo los resultados y los pinto en el html
 
 function getDataFromApi(element, title, series) {
   const titleFromApi = getTitle(title);
@@ -122,11 +109,15 @@ function getDataFromApi(element, title, series) {
   }
   element.appendChild(titleFromApi);
   element.appendChild(listFromApi);
+  addFav = document.querySelectorAll('.ulSerie');
+  for (let item of addFav) {
+    item.addEventListener('click', handleFavBtn);
+  }
 }
 
 function getTitle(title) {
   const element = document.createElement('h5');
-  element.className = 'ulSeries';
+  element.className = 'ulSerie__title';
   element.textContent = title;
   return element;
 }
@@ -137,9 +128,12 @@ function getList() {
   return element;
 }
 
+//cojo la lista de los resultados, con sus imágenes y sus títulos para que se pinten correctamente en la función
+
 function getListItemFromApi(serie) {
   const element = document.createElement('li');
   element.dataset.id = serie.mal_id;
+  element.className = 'ulSerie';
   return element;
 }
 
@@ -148,15 +142,31 @@ function getImageFromApi(serie) {
   element.className = 'urlImg';
   element.src = serie.image_url;
   return element;
+  //qué pasa, cómo lo hago para usar la funcion imgifnone si no tiene img?
 }
 
 function getSecondTitleFromApi(serie) {
   const element = document.createElement('h6');
   element.className = 'secondTitle';
-  console.log(serie);
   const text = document.createTextNode(serie.title);
   element.appendChild(text);
   return element;
+}
+
+//creamos función para pintar los favoritos
+
+function handleFavBtn(ev) {
+  ev.preventDefault();
+  showFavs(ev);
+  //getFavorites();
+}
+
+function showFavs(event) {
+  const currentFav = parseInt(event.currentTarget.dataset.id);
+  console.log(currentFav);
+  const seriesFav = serieList.find((serie) => serie.mal_id === currentFav);
+  favorites.push(seriesFav);
+  console.log(favorites);
 }
 
 getFavsFromLocalStg();

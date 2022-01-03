@@ -12,30 +12,36 @@
 
   <body>
     <div class="page">
-      <header class="header__title">
-          <h1>Buscador de series de anime</h1>
+      <header class="header">
+          <h1 class="header__title">Buscador de series de anime</h1>
+          <section class="header__body">
+              <form class="header__body--form js-form" method="GET">
+                  <input class="js-userInput userInput" type="text" name="name-show" id="name-show" placeholder="Ej: Naruto"
+                      maxlength="30">
+                  <button class="header__body--searchbtn js-searchBtn" type="button"><i class=""
+                          aria-hidden="true"></i>Buscar</button>
+              </form>
+              <div>
+                  <button class="header__body--resetbtn js-resetBtn" type="reset"><i class=""
+                          aria-hidden="true"></i>Reset</button>
+              </div>
+          </section>
       </header>
-      <section class="header__body">
-          <fieldset>
-              <label class="" for="name"></label>
-              <input class="js-userInput" type="text" name="name-show" id="name-show" placeholder="Ej: Naruto" maxlength="30">
-          </fieldset>
-          <div>
-              <button class="header__body--searchbtn js-searchBtn" type="submit"><i class="" aria-hidden="true"></i>Buscar</button>
-              <button class="header__body--resetbtn js-resetBtn" type="reset"><i class="" aria-hidden="true"></i>Reset</button>
+      <article class="bothcolums">
+          <div class="favlist">
+              <h3 class="favlist__title">Series favoritas</h3>
+              <section class="favlist__container js-favlistcontainer">
+                    <button class="favlist__container--resetBtnfav js-resetBtnfav">Borrar favs</button>
+                    <ul class="js-favoritesList"></ul>
+              </section>
           </div>
-      </section>
-      <section class="favlist">
-          <h3 class="favlist__title">Series favoritas</h3>
-
-      </section> 
-      <section class="results">
-          <h3 class="results__title">Resultados</h3>
-          <li class="js-resultsData">
-              <ul>
-              </ul>
-          </li>
-      </section> 
+          <div class="results">
+              <h3 class="results__title">Resultados</h3>
+              <section class="results__results js-resultsData">
+                  <ul class="js-seriesList"></ul>
+              </section>
+          </div>
+      </article> 
     </div>
     <script src="./assets/js/main.js"></script>
   </body>
