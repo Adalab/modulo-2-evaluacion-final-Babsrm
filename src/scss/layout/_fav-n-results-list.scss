@@ -1,53 +1,50 @@
 .bothcolums {
 	display: flex;
-  height: 100%;
-  margin: 0;
-  background-color: black;
+	height: 100%;
+	margin: 0;
 }
 .results {
 	font-family: $font-primary;
-	background-color: black;
 	color: $color-font-primary;
 	width: 60%;
 	height: 100%;
-  margin: 0;
-	border: rgb(255, 0, 179) 3px solid;
+	margin: 0;
 	font-family: $font-primary;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	padding: 30px;
 	&__title {
 		font-size: 16px;
 	}
-  &__results{
-    display:flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    border: burlywood 2px solid;
-  }
+	&__results {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
 }
-.ulSerie{
-  height: 370px;
-  width: 225px;
-  background-repeat: no-repeat;
-  background-size: contain;
+.ulSerie {
+	height: 370px;
+	width: 225px;
+	background-repeat: no-repeat;
+	background-size: contain;
 }
-.secondTitle{
-  display: flex;
-  align-items: flex-end;
-  width: fit-content;
-  height: 40px;
+.secondTitle {
+	display: flex;
+	align-items: flex-end;
+	width: fit-content;
+	height: 40px;
 }
 .favlist {
-	background-color: black;
 	color: $color-font-primary;
 	width: 40%;
 	height: 100%;
-  margin: 0;
-	border: yellow 3px solid;
+	margin: 0;
 	font-family: $font-primary;
+	list-style: none;
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	padding: 30px;

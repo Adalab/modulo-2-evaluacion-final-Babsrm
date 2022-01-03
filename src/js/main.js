@@ -3,6 +3,7 @@
 //nos traemos elementos del HTML
 const searchBtn = document.querySelector('.js-searchBtn');
 const resetBtn = document.querySelector('.js-resetBtn');
+const resetBtnFav = document.querySelector('.js-resetBtnfav');
 const listaFavs = document.querySelector('.js-favlistcontainer');
 const resultsForDlt = document.querySelector('.js-resultsData');
 let addFav = [];
@@ -23,7 +24,7 @@ function handleResetBtn() {
   favorites = [];
   listaFavs.innerHTML='';
   resultsForDlt.innerHTML='';
-  
+  rmvFavsFromLocalStg();
 }
 
 resetBtn.addEventListener('click', handleResetBtn);
@@ -33,9 +34,7 @@ function callApi() {
   fetch(`${apiURL}${textInput}`)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       serieList = data.results;
-      console.log(serieList[0]);
       getSeriesResult();
     });
 }
@@ -46,12 +45,10 @@ function handleSearchBtn(ev) {
   ev.preventDefault();
   textInput = document.querySelector('.js-userInput').value;
   callApi();
-  getFavorites();
+  //getFavorites();
 }
 
 searchBtn.addEventListener('click', handleSearchBtn);
-
-//funcion boton añadir a favoritos
 
 //Guardamos los favoritos en el local storage
 
@@ -75,6 +72,8 @@ function saveFavsLocalStg() {
 function rmvFavsFromLocalStg() {
   localStorage.removeItem('favorites');
 }
+resetBtnFav.addEventListener('click', rmvFavsFromLocalStg);
+
 
 //cogemos datos, muchos datos de la api
 
@@ -86,18 +85,18 @@ function getSeriesResult() {
   }
 }
 
-function getFavorites() {
-  const favoritesList = document.querySelector('.js-favlistcontainer');
-  favoritesList.textContent = '';
+// function getFavorites() {
+//   const favoritesList = document.querySelector('.js-favlistcontainer');
+//   favoritesList.textContent = '';
 
-  if (favorites.length > 0) {
-    favoritesList.classList.add('favorites');
-    getDataFromApi(favoritesList, 'Series fav', favorites);
-    removeAllFav();
-  } else {
-    favoritesList.classList.remove('favorites');
-  }
-}
+//   if (favorites.length > 0) {
+//     favoritesList.classList.add('favorites');
+//     getDataFromApi(favoritesList, 'Series fav', favorites);
+//     //removeAllFav();
+//   } else {
+//     favoritesList.classList.remove('favorites');
+//   }
+// }
 //cojo los resultados y los pinto en el html; así mismo, incluyo el listener de seleccionar un item al hacer click y enviarlo a favs
 
 function getDataFromApi(element, title, series) {
@@ -163,19 +162,18 @@ function handleFavBtn(ev) {
   ev.preventDefault();
   showFavs(ev);
   getInfoFromFavs();
-  //getFavorites();
+  saveFavsLocalStg();
 }
 
 function showFavs(event) {
   const currentFav = parseInt(event.currentTarget.dataset.id);
-  console.log(currentFav);
   const seriesFav = serieList.find((serie) => serie.mal_id === currentFav);
   favorites.push(seriesFav);
-  console.log(favorites);
 }
 //creamos un bucle for sobre seriesFav para poder pintarlo
 
 function getInfoFromFavs() {
+  listaFavs.innerHTML ='';
   for (const fav of favorites) {
     const listItemFromApi = getListItemFromApi(fav);
     const imageFromApi = getImageFromApi(fav);
