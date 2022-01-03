@@ -28,8 +28,16 @@
   }
 }
 .ulSerie{
-  height: auto;
-  width: auto;
+  height: 370px;
+  width: 225px;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.secondTitle{
+  display: flex;
+  align-items: flex-end;
+  width: fit-content;
+  height: 40px;
 }
 .favlist {
 	background-color: black;

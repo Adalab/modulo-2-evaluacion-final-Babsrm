@@ -3,7 +3,8 @@
 //nos traemos elementos del HTML
 const searchBtn = document.querySelector('.js-searchBtn');
 const resetBtn = document.querySelector('.js-resetBtn');
-const listaFavs = document.querySelector('.js-favoritesList');
+const listaFavs = document.querySelector('.js-favlistcontainer');
+const resultsForDlt = document.querySelector('.js-resultsData');
 let addFav = [];
 
 //variables
@@ -17,9 +18,12 @@ let favorites = [];
 //funcion botón reset
 
 function handleResetBtn() {
-  textInput = '';
+  textInput= '';
   serieList = [];
   favorites = [];
+  listaFavs.innerHTML='';
+  resultsForDlt.innerHTML='';
+  
 }
 
 resetBtn.addEventListener('click', handleResetBtn);
@@ -94,7 +98,7 @@ function getFavorites() {
     favoritesList.classList.remove('favorites');
   }
 }
-//cojo los resultados y los pinto en el html
+//cojo los resultados y los pinto en el html; así mismo, incluyo el listener de seleccionar un item al hacer click y enviarlo a favs
 
 function getDataFromApi(element, title, series) {
   const titleFromApi = getTitle(title);
@@ -158,6 +162,7 @@ function getSecondTitleFromApi(serie) {
 function handleFavBtn(ev) {
   ev.preventDefault();
   showFavs(ev);
+  getInfoFromFavs();
   //getFavorites();
 }
 
@@ -167,6 +172,18 @@ function showFavs(event) {
   const seriesFav = serieList.find((serie) => serie.mal_id === currentFav);
   favorites.push(seriesFav);
   console.log(favorites);
+}
+//creamos un bucle for sobre seriesFav para poder pintarlo
+
+function getInfoFromFavs() {
+  for (const fav of favorites) {
+    const listItemFromApi = getListItemFromApi(fav);
+    const imageFromApi = getImageFromApi(fav);
+    const titleSecondFromApi = getSecondTitleFromApi(fav);
+    listaFavs.appendChild(imageFromApi);
+    listaFavs.appendChild(titleSecondFromApi);
+    listaFavs.appendChild(listItemFromApi);
+  }
 }
 
 getFavsFromLocalStg();
