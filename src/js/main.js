@@ -17,6 +17,13 @@ let textInput = '';
 let serieList = [];
 let favorites = [];
 
+//llamadores
+
+resetBtn.addEventListener('click', handleResetBtn);
+searchBtn.addEventListener('click', handleSearchBtn);
+resetBtnFav.addEventListener('click', rmvFavsFromLocalStg);
+
+
 //funcion botón reset
 
 function handleResetBtn() {
@@ -27,8 +34,6 @@ function handleResetBtn() {
   resultsForDlt.innerHTML = '';
   rmvFavsFromLocalStg();
 }
-
-resetBtn.addEventListener('click', handleResetBtn);
 
 //llamamos al servidor api
 function callApi() {
@@ -48,8 +53,6 @@ function handleSearchBtn(ev) {
   callApi();
   //getFavorites();
 }
-
-searchBtn.addEventListener('click', handleSearchBtn);
 
 //Guardamos los favoritos en el local storage
 
@@ -75,7 +78,7 @@ function saveFavsLocalStg() {
 function rmvFavsFromLocalStg() {
   localStorage.removeItem('favorites');
 }
-resetBtnFav.addEventListener('click', rmvFavsFromLocalStg);
+
 
 //cogemos datos, muchos datos de la api
 
