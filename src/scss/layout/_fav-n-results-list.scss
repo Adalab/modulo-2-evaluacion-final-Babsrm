@@ -8,7 +8,7 @@
 .results {
 	font-family: $font-primary;
 	color: $color-font-primary;
-
+	width: 200px;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -34,6 +34,7 @@
 	height: 40px;
 }
 .favlist {
+	width: 150px;
 	color: $color-font-primary;
 	font-family: $font-primary;
 	list-style: none;

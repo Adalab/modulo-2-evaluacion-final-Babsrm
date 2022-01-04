@@ -7,25 +7,22 @@ const resetBtnFav = document.querySelector('.js-resetBtnfav');
 const listaFavs = document.querySelector('.js-favlistcontainer');
 const resultsForDlt = document.querySelector('.js-resultsData');
 const resultsApi = document.querySelector('.js-resultsData');
-let addFav = [];
 
 //variables
 const apiURL = 'https://api.jikan.moe/v3/search/anime?q=';
 const imgIfNone = 'https://via.placeholder.com/227x320/e5e5e5/666/?text=TV';
 
+let addFav = [];
 let textInput = '';
 let serieList = [];
 let favorites = [];
 
 //llamadores
-
 resetBtn.addEventListener('click', handleResetBtn);
 searchBtn.addEventListener('click', handleSearchBtn);
 resetBtnFav.addEventListener('click', rmvFavsFromLocalStg);
 
-
 //funcion botón reset
-
 function handleResetBtn() {
   textInput = '';
   serieList = [];
@@ -33,6 +30,13 @@ function handleResetBtn() {
   listaFavs.innerHTML = '';
   resultsForDlt.innerHTML = '';
   rmvFavsFromLocalStg();
+}
+
+//funcion boton buscar
+function handleSearchBtn(ev) {
+  ev.preventDefault();
+  textInput = document.querySelector('.js-userInput').value;
+  callApi();
 }
 
 //llamamos al servidor api
@@ -45,17 +49,7 @@ function callApi() {
     });
 }
 
-//funcion boton buscar
-
-function handleSearchBtn(ev) {
-  ev.preventDefault();
-  textInput = document.querySelector('.js-userInput').value;
-  callApi();
-  //getFavorites();
-}
-
 //Guardamos los favoritos en el local storage
-
 function getFavsFromLocalStg() {
   const favoritesFromLocalStorage = JSON.parse(
     localStorage.getItem('favorites')
@@ -81,7 +75,6 @@ function rmvFavsFromLocalStg() {
 
 
 //cogemos datos, muchos datos de la api
-
 function getSeriesResult() {
   resultsApi.textContent = '';
   if (serieList.length > 0) {
@@ -89,7 +82,7 @@ function getSeriesResult() {
   }
 }
 
-//cojo los resultados y los pinto en el html; así mismo, incluyo el listener de seleccionar un item al hacer click y enviarlo a favs
+//cojo los resultados y los pinto en el html; así mismo, incluyo en el listener de seleccionar un item al hacer click y enviarlo a favs
 
 function getDataFromApi() {
   const titleFromApi = getTitle('Resultados');
@@ -120,6 +113,7 @@ function getDataFromApi() {
   }
 }
 
+//cojo la lista de los resultados, con sus imágenes y sus títulos para que se pinten correctamente en la función
 function getTitle(title) {
   const element = document.createElement('h5');
   element.className = 'ulSerie__title';
@@ -132,8 +126,6 @@ function getList() {
   element.className = 'results__results';
   return element;
 }
-
-//cojo la lista de los resultados, con sus imágenes y sus títulos para que se pinten correctamente en la función
 
 function getListItemFromApi(serie) {
   const element = document.createElement('li');
@@ -163,7 +155,6 @@ function getSecondTitleFromApi(serie) {
 }
 
 //creamos función para pintar los favoritos
-
 function handleFavBtn(ev) {
   ev.preventDefault();
   showFavs(ev);
@@ -178,7 +169,6 @@ function showFavs(event) {
   favorites.push(seriesFav);
 }
 //creamos un bucle for sobre seriesFav para poder pintarlo
-
 function getInfoFromFavs() {
   listaFavs.innerHTML = '';
   for (const fav of favorites) {
