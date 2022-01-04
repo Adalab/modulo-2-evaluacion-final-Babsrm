@@ -6,6 +6,7 @@ const resetBtn = document.querySelector('.js-resetBtn');
 const resetBtnFav = document.querySelector('.js-resetBtnfav');
 const listaFavs = document.querySelector('.js-favlistcontainer');
 const resultsForDlt = document.querySelector('.js-resultsData');
+const resultsApi = document.querySelector('.js-resultsData');
 let addFav = [];
 
 //variables
@@ -19,11 +20,11 @@ let favorites = [];
 //funcion botón reset
 
 function handleResetBtn() {
-  textInput= '';
+  textInput = '';
   serieList = [];
   favorites = [];
-  listaFavs.innerHTML='';
-  resultsForDlt.innerHTML='';
+  listaFavs.innerHTML = '';
+  resultsForDlt.innerHTML = '';
   rmvFavsFromLocalStg();
 }
 
@@ -64,8 +65,10 @@ function getFavsFromLocalStg() {
 function saveFavsLocalStg() {
   if (favorites.length > 0) {
     localStorage.setItem('favorites', JSON.stringify(favorites));
+    resetBtnFav.classList.remove('hidden');
   } else {
     rmvFavsFromLocalStg();
+    resetBtnFav.classList.add('hidden');
   }
 }
 
@@ -74,44 +77,40 @@ function rmvFavsFromLocalStg() {
 }
 resetBtnFav.addEventListener('click', rmvFavsFromLocalStg);
 
-
 //cogemos datos, muchos datos de la api
 
 function getSeriesResult() {
-  const resultsApi = document.querySelector('.js-resultsData');
   resultsApi.textContent = '';
   if (serieList.length > 0) {
-    getDataFromApi(resultsApi, 'Resultados', serieList);
+    getDataFromApi();
   }
 }
 
-// function getFavorites() {
-//   const favoritesList = document.querySelector('.js-favlistcontainer');
-//   favoritesList.textContent = '';
-
-//   if (favorites.length > 0) {
-//     favoritesList.classList.add('favorites');
-//     getDataFromApi(favoritesList, 'Series fav', favorites);
-//     //removeAllFav();
-//   } else {
-//     favoritesList.classList.remove('favorites');
-//   }
-// }
 //cojo los resultados y los pinto en el html; así mismo, incluyo el listener de seleccionar un item al hacer click y enviarlo a favs
 
-function getDataFromApi(element, title, series) {
-  const titleFromApi = getTitle(title);
+function getDataFromApi() {
+  const titleFromApi = getTitle('Resultados');
   const listFromApi = getList();
-  for (const serie of series) {
+  resultsApi.innerHTML = '';
+
+  for (const serie of serieList) {
+    const ifFav = favorites.findIndex(
+      (serieFav) => serieFav.mal_id === serie.mal_id);
     const listItemFromApi = getListItemFromApi(serie);
     const imageFromApi = getImageFromApi(serie);
     const titleSecondFromApi = getSecondTitleFromApi(serie);
     listItemFromApi.appendChild(imageFromApi);
     listItemFromApi.appendChild(titleSecondFromApi);
     listFromApi.appendChild(listItemFromApi);
+
+    //si la serie es favorita
+
+    if (ifFav !== -1) {
+      listItemFromApi.classList.add('favSelectedColors');
+    }
   }
-  element.appendChild(titleFromApi);
-  element.appendChild(listFromApi);
+  resultsApi.appendChild(titleFromApi);
+  resultsApi.appendChild(listFromApi);
   addFav = document.querySelectorAll('.ulSerie');
   for (let item of addFav) {
     item.addEventListener('click', handleFavBtn);
@@ -143,9 +142,13 @@ function getListItemFromApi(serie) {
 function getImageFromApi(serie) {
   const element = document.createElement('img');
   element.className = 'urlImg';
+  if (serie.image_url !== '') {
+    element.src = serie.image_url;
+  } else {
+    element.src = imgIfNone;
+  }
   element.src = serie.image_url;
   return element;
-  //qué pasa, cómo lo hago para usar la funcion imgifnone si no tiene img?
 }
 
 function getSecondTitleFromApi(serie) {
@@ -163,6 +166,7 @@ function handleFavBtn(ev) {
   showFavs(ev);
   getInfoFromFavs();
   saveFavsLocalStg();
+  getDataFromApi();
 }
 
 function showFavs(event) {
@@ -173,7 +177,7 @@ function showFavs(event) {
 //creamos un bucle for sobre seriesFav para poder pintarlo
 
 function getInfoFromFavs() {
-  listaFavs.innerHTML ='';
+  listaFavs.innerHTML = '';
   for (const fav of favorites) {
     const listItemFromApi = getListItemFromApi(fav);
     const imageFromApi = getImageFromApi(fav);
@@ -185,4 +189,4 @@ function getInfoFromFavs() {
 }
 
 getFavsFromLocalStg();
-saveFavsLocalStg();
+getInfoFromFavs();
