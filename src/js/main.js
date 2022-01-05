@@ -7,6 +7,7 @@ const resetBtnFav = document.querySelector('.js-resetBtnfav');
 const listaFavs = document.querySelector('.js-favlistcontainer');
 const resultsForDlt = document.querySelector('.js-resultsData');
 const resultsApi = document.querySelector('.js-resultsData');
+const logBtn = document.querySelector('.js-paintConsole');
 
 //variables
 const apiURL = 'https://api.jikan.moe/v3/search/anime?q=';
@@ -21,6 +22,15 @@ let favorites = [];
 resetBtn.addEventListener('click', handleResetBtn);
 searchBtn.addEventListener('click', handleSearchBtn);
 resetBtnFav.addEventListener('click', rmvFavsFromLocalStg);
+logBtn.addEventListener('click', executeLog);
+
+//funcion boton log para hacer un console log de los favoritos
+
+function executeLog() {
+  for (const favorite of favorites) {
+    console.log(favorite.title);
+  }
+}
 
 //funcion botón reset
 function handleResetBtn() {
@@ -95,9 +105,11 @@ function getDataFromApi() {
     const listItemFromApi = getListItemFromApi(serie);
     const imageFromApi = getImageFromApi(serie);
     const titleSecondFromApi = getSecondTitleFromApi(serie);
+    const typeFromApi = getType(serie);
     listItemFromApi.appendChild(imageFromApi);
     listItemFromApi.appendChild(titleSecondFromApi);
     listFromApi.appendChild(listItemFromApi);
+    listItemFromApi.appendChild(typeFromApi);
 
     //si la serie es favorita
 
@@ -154,6 +166,14 @@ function getSecondTitleFromApi(serie) {
   return element;
 }
 
+function getType(serie) {
+  const element = document.createElement('p');
+  element.className = 'serieType';
+  const text = document.createTextNode(serie.type);
+  element.appendChild(text);
+  return element;
+}
+
 //creamos función para pintar los favoritos
 function handleFavBtn(ev) {
   ev.preventDefault();
@@ -166,7 +186,13 @@ function handleFavBtn(ev) {
 function showFavs(event) {
   const currentFav = parseInt(event.currentTarget.dataset.id);
   const seriesFav = serieList.find((serie) => serie.mal_id === currentFav);
-  favorites.push(seriesFav);
+  const fav = favorites.find((serie) => serie.mal_id === currentFav);
+  if (fav === undefined){
+    favorites.push(seriesFav);
+  }else{
+    const positionForDlt = favorites.findIndex((serie) => currentFav === serie.mal_id);
+    favorites.splice(positionForDlt,1);
+  }
 }
 //creamos un bucle for sobre seriesFav para poder pintarlo
 function getInfoFromFavs() {
